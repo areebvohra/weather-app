@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/modal/MapApi.dart';
+import 'package:weather_app/api/MapApi.dart';
 import 'package:weather_app/ui/Weather.dart';
 import 'package:weather_app/modal/WeatherData.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -39,14 +40,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  getCurrentLocation() {
-    loadWeather(lat: 24.8667795, lon: 67.0311286);
+  getCurrentLocation() async {
+    final location = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    loadWeather(lat: location.latitude, lon: location.longitude);
   }
 
   loadWeather({double lat, double lon}) async {
     MapApi mapApi = MapApi.getInstance();
     final data = await mapApi.getWeather(lat: lat, lon: lon);
-    
+
     setState(() {
       this._weatherData = data;
     });
