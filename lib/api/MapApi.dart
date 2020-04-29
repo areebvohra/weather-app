@@ -1,5 +1,5 @@
 import 'package:http/http.dart' show Client;
-import 'WeatherData.dart';
+import 'package:weather_app/modal/WeatherData.dart';
 
 class MapApi {
   static const APIkey = "ad8ee6f19ecdc9f2065b5398ac06ee1e";
